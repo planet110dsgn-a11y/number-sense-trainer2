@@ -1,0 +1,25 @@
+import type { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'データセンスアプリ 2',
+    short_name: 'Number Sense 2',
+    description: '金額の桁感を鍛えるトレーニングアプリ',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#111827',
+    theme_color: '#10b981',
+    icons: [
+      {
+        src: '/icon-192.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        src: '/icon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
+  };
+}
