@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { advanceCountdown } from '@/lib/countdown';
 import { formatDuration } from '@/lib/format';
 import { correctAnswer, evaluateAttempt, normalize, type Unit } from '@/lib/judge';
 import { buildQuestionSet, type Question } from '@/lib/question';
@@ -32,27 +33,30 @@ export default function QuizPage() {
       return;
     }
 
-    if (isCountingDown) {
-      const timer = window.setTimeout(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            window.clearTimeout(timer);
-            setIsCountingDown(false);
-            questionStartedRef.current = performance.now();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+    if (!isCountingDown) {
+      if (!inputRef.current) {
+        return;
+      }
 
-      return () => window.clearTimeout(timer);
-    }
-
-    if (!inputRef.current) {
+      inputRef.current.focus();
       return;
     }
 
-    inputRef.current.focus();
+    const timer = window.setTimeout(() => {
+      setCountdown((prev) => {
+        const result = advanceCountdown(prev);
+
+        if (result.shouldStartQuestion) {
+          setIsCountingDown(false);
+          questionStartedRef.current = performance.now();
+          return 0;
+        }
+
+        return result.next;
+      });
+    }, 1000);
+
+    return () => window.clearTimeout(timer);
   }, [questions, isCountingDown, currentIndex]);
 
   useEffect(() => {
