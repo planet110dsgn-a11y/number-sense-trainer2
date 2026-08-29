@@ -57,7 +57,7 @@ export default function QuizPage() {
     }, 1000);
 
     return () => window.clearTimeout(timer);
-  }, [questions, isCountingDown, currentIndex]);
+  }, [questions, isCountingDown, currentIndex, countdown]);
 
   useEffect(() => {
     if (isCountingDown || !questions.length) {
