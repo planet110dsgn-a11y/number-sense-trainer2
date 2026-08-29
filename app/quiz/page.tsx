@@ -250,9 +250,11 @@ export default function QuizPage() {
                 )}
               </div>
 
-              <div className="mt-2 text-center text-xs text-slate-500 dark:text-slate-300">
-                正解: {thisAnswer.value} {thisAnswer.unit}
-              </div>
+              {feedback && (
+                <div className="mt-2 text-center text-xs text-slate-500 dark:text-slate-300">
+                  正解: {thisAnswer.value} {thisAnswer.unit}
+                </div>
+              )}
             </>
           )}
         </div>
